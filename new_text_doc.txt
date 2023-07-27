@@ -1,0 +1,1122 @@
+SLL
+
+public class Node {
+    private int data;
+    private Node next;
+
+    public Node(int data) {
+        this.data = data;
+        this.next = null;
+    }
+
+    public int getData() {
+        return data;
+    }
+
+    public void setData(int data) {
+        this.data = data;
+    }
+
+    public Node getNext() {
+        return next;
+    }
+
+    public void setNext(Node next) {
+        this.next = next;
+    }
+}
+
+import java.util.Stack;
+
+public class LinkedList {
+    private Node head;
+    /*private int size = 0;
+    private Node last;*/
+
+    public LinkedList() {
+        head = null;
+    }
+
+    public void setHead(Node head) {
+		this.head = head;
+	}
+
+	public boolean insert(int data) {
+        Node newNode = new Node(data);
+//        if(newNode == null) {
+//            return false;
+//        }
+
+        if(head == null) {
+            this.head = newNode;
+            return true;
+        }
+
+        Node last = head;
+        while(last.getNext() != null) {
+            last = last.getNext();
+        }
+
+        last.setNext(newNode);
+        return true;
+    }
+
+    public void display() {
+        Node temp = head;
+        while(temp != null) {
+            System.out.print(temp.getData() + " ");
+            temp = temp.getNext();
+        }
+        System.out.println();
+    }
+
+    public void display(Node head) {
+        if(head == null) {
+            return;
+        }
+
+        System.out.print(head.getData() + " ");
+        display(head.getNext());
+    }
+
+    public Node getHead() {
+        return head;
+    }
+
+    public void displayRev() {
+        Node temp = head;
+        Stack<Node> s = new Stack<>();
+
+        while(temp != null) {
+            s.push(temp);
+            temp = temp.getNext();
+        }
+
+        while(!s.isEmpty()) {
+            System.out.print(s.pop().getData() + " ");
+        }
+        System.out.println();
+    }
+
+    public void displayRev(Node head) {
+        if(head == null) {
+            return;
+        }
+        displayRev(head.getNext());
+        System.out.print(head.getData()  +" ");
+    }
+
+    public boolean insert(int data, int position) {
+        if(position <= 0 || (head == null && position > 1)) {
+            return false;
+        }
+
+        Node newNode = new Node(data);
+//        if(newNode == null) {
+//            return false;
+//        }
+
+        if( position == 1) {
+            newNode.setNext(head);
+            head = newNode;
+            return true;
+        }
+
+        //locate prev node
+        Node prev = head;
+        for(int i = 1; i < position - 1; i++) {
+            prev = prev.getNext();
+            if(prev == null) {
+                return false;
+            }
+        }
+
+        newNode.setNext(prev.getNext());
+        prev.setNext(newNode);
+
+        return true;
+
+    }
+
+    public boolean deleteByVal(int data) {
+        if(head == null) {
+            return false;
+        }
+
+        if(head.getData() == data) {
+            head = head.getNext();
+            return true;
+        }
+
+        Node prev = head, del = head;
+        while(del.getData() != data) {
+            prev = del;
+            del = del.getNext();
+            if(del == null) {
+                return false;
+            }
+        }
+
+        prev.setNext(del.getNext());
+        return true;
+    }
+
+    public boolean deleteByPosition(int position) {
+        if(head == null || position <= 0) {
+            return false;
+        }
+
+        if(position == 1) {
+            head = head.getNext();
+            return true;
+        }
+
+        Node prev = head;
+        for(int i = 1; i < position -1; i++) {
+            prev = prev.getNext();
+            if(prev.getNext() == null) {
+                return false;
+            }
+        }
+
+        Node del = prev.getNext();
+        /*if(del == null) {
+            return false;
+        }*/
+        prev.setNext(del.getNext());
+
+        return true;
+    }
+
+    public void reverse() {
+        if(head == null || head.getNext() == null) {
+            return;
+        }
+
+        Node n1 = head, n2 = head.getNext();
+        Node n3 = null;
+
+        while(n2 != null) {
+            n3 = n2.getNext();
+            n2.setNext(n1);
+            n1 = n2;
+            n2 = n3;
+        }
+
+        head.setNext(null);
+        head = n1;
+    }
+
+    public void reverse(Node n1, Node n2) {
+        if(n2 == null) {
+            head.setNext(null);
+            head = n1;
+            return;
+        }
+        reverse(n2, n2.getNext());
+        n2.setNext(n1);
+    }
+}
+_______________________________________________________________________________
+DLL
+public class Node {
+    private int data;
+    private Node prev, next;
+
+    public Node(int data) {
+        this.data = data;
+        prev = next = null;
+    }
+
+    public int getData() {
+        return data;
+    }
+
+    public void setData(int data) {
+        this.data = data;
+    }
+
+    public Node getPrev() {
+        return prev;
+    }
+
+    public void setPrev(Node prev) {
+        this.prev = prev;
+    }
+
+    public Node getNext() {
+        return next;
+    }
+
+    public void setNext(Node next) {
+        this.next = next;
+    }
+}
+
+public class DLinkedList {
+    private Node head;
+
+    public DLinkedList() {
+        head = null;
+    }
+
+    public boolean insert(int data) {
+        Node newNode = new Node(data);
+//        if(newNode == null) {
+//            return false;
+//        }
+
+        if(head == null) {
+            head = newNode;
+            return true;
+        }
+
+        Node last = head;
+        while(last.getNext() != null) {
+            last = last.getNext();
+        }
+
+        last.setNext(newNode);
+        newNode.setPrev(last);
+
+        return true;
+
+    }
+
+    public void display() {
+        Node temp = head;
+        while(temp != null) {
+            System.out.print(temp.getData() + " ");
+            temp = temp.getNext();
+        }
+        System.out.println();
+    }
+
+    public boolean insert(int data, int position) {
+        if(position <= 0 || (head == null && position > 1)) {
+            return false;
+        }
+
+        Node newNode = new Node(data);
+//        if(newNode == null) {
+//            return false;
+//        }
+
+        if(position == 1) {
+            if(head != null) {
+                newNode.setNext(head);
+                head.setPrev(newNode);
+            }
+            head = newNode;
+            return true;
+        }
+
+        //locate pos - 1 node
+        Node prev = head;
+        for(int i = 1; i < position - 1; i++) {
+            prev = prev.getNext();
+            if(prev == null) {
+                return false;
+            }
+        }
+
+        Node next = prev.getNext();
+        newNode.setPrev(prev);
+        prev.setNext(newNode);
+        if(next != null) {
+            newNode.setNext(next);
+            next.setPrev(newNode);
+        }
+
+        return true;
+    }
+
+    public boolean deleteByVal(int data) {
+        if(head == null) {
+            return false;
+        }
+
+        if(head.getData() == data) {
+            head = head.getNext();
+            if(head != null) {
+                head.setPrev(null);
+            }
+            return true;
+        }
+
+        Node del = head;
+        while(del.getData() != data) {
+            del = del.getNext();
+            if(del == null) {
+                return false;
+            }
+        }
+
+        /*del.getPrev().setNext(del.getNext());
+        if(del.getNext() != null) {
+            del.getNext().setPrev(del.getPrev());
+        }*/
+
+        Node prev = del.getPrev();
+        Node next = del.getNext();
+        prev.setNext(next);
+        if(next != null) {
+            next.setPrev(prev);
+        }
+        return true;
+    }
+
+    public boolean deleteByPosition(int position) {
+        if(position <= 0 || head == null) {
+            return false;
+        }
+
+        if(position == 1) {
+            head = head.getNext();
+            if(head != null) {
+                head.setPrev(null);
+            }
+            return true;
+        }
+
+        Node del = head;
+        for(int i = 1; i < position; i++) {
+            del = del.getNext();
+            if(del == null) {
+                return false;
+            }
+        }
+
+        Node prev = del.getPrev();
+        Node next = del.getNext();
+        prev.setNext(next);
+        if(next != null) {
+            next.setPrev(prev);
+        }
+        return true;
+    }
+}
+________________________________________________________________________________
+CLL
+
+public class Node {
+    private int data;
+    private Node next;
+
+    public Node(int data) {
+        this.data = data;
+        next = null;
+    }
+
+    public int getData() {
+        return data;
+    }
+
+    public void setData(int data) {
+        this.data = data;
+    }
+
+    public Node getNext() {
+        return next;
+    }
+
+    public void setNext(Node next) {
+        this.next = next;
+    }
+}
+public class CircularLInkedList {
+    private Node head;
+
+    public CircularLInkedList() {
+        head = null;
+    }
+
+    public boolean insert(int data) {
+        Node newNode = new Node(data);
+//        if(newNode == null) {
+//            return false;
+//        }
+
+        if(head == null) {
+            head = newNode;
+            newNode.setNext(newNode);
+            return true;
+        }
+
+        Node last = head;
+        while(last.getNext() != head) {
+            last = last.getNext();
+        }
+
+        last.setNext(newNode);
+        newNode.setNext(head);
+
+        return true;
+    }
+
+    public boolean insert(int data, int position) {
+        if(position <= 0 || (head == null && position > 1)) {
+            return false;
+        }
+
+        Node newNode = new Node(data);
+//        if(newNode == null) {
+//            return false;
+//        }
+
+        if(position == 1) {
+
+            //if list is empty
+            if(head == null) {
+                head = newNode;
+                newNode.setNext(head);
+                return true;
+            }
+
+            //list is not empty
+            newNode.setNext(head);
+            Node last = head;
+            while(last.getNext() != head) {
+                last = last.getNext();
+            }
+            last.setNext(newNode);
+            head = newNode;
+            return true;
+        }
+
+        Node prev = head;
+        for(int i = 1; i < position - 1; i++) {
+            prev = prev.getNext();
+            if(prev == head) {
+                return false;
+            }
+        }
+
+        newNode.setNext(prev.getNext());
+        prev.setNext(newNode);
+
+        return true;
+    }
+
+    public void display() {
+        if(head == null) {
+            return;
+        }
+
+        Node temp = head;
+        do {
+            System.out.print(temp.getData() + " ");
+            temp = temp.getNext();
+        }while (temp != head);
+        System.out.println();
+    }
+
+    public boolean deleteByVal(int data) {
+        if(head == null) {
+            return false;
+        }
+
+        if(data == head.getData()) {
+            //if the list is having only one node
+            if(head.getNext() == head) {
+                head = null;
+                return true;
+            }
+
+            //if the list is having more than one node
+            Node last = head;
+            while(last.getNext() != head) {
+                last = last.getNext();
+            }
+            last.setNext(head.getNext());
+            head = head.getNext();
+
+            return true;
+
+        }
+
+        Node prev = head, del = head;
+        while(del.getData() != data) {
+            prev = del;
+            del = del.getNext();
+            if(del == head) {
+                return false;
+            }
+        }
+
+        prev.setNext(del.getNext());
+        return true;
+    }
+
+    public boolean deleteByPosition(int position) {
+        if(position <= 0 || head == null) {
+            return false;
+        }
+
+        if(position == 1) {
+            if(head.getNext() == head) {
+                head = null;
+                return true;
+            }
+
+            Node last = head;
+            while(last.getNext() != head) {
+                last = last.getNext();
+            }
+            last.setNext(head.getNext());
+            head = head.getNext();
+            return true;
+        }
+
+        Node prev = head, del = head;
+        for(int i = 1; i < position; i++) {
+            prev = del;
+            del = del.getNext();
+            if(del == head) {
+                return false;
+            }
+        }
+
+        prev.setNext(del.getNext());
+        return true;
+    }
+}
+_______________________________________________________________________________
+Binary search
+public class Util  {
+    public static int binarySearch(int [] arr, int key) {
+
+        int low = 0, high = arr.length - 1;
+        int mid;
+
+        while(low <= high) {
+            mid = (low + high) / 2;
+
+            if(arr[mid] == key) {
+                return mid;
+            }
+
+            if(key < arr[mid]) {
+                high = mid - 1;
+            }
+            else {
+                low = mid + 1;
+            }
+        }
+        return -1;
+    }
+
+    public static int binarySearch(int [] arr, int low, int high, int key) {
+        if(low > high) {
+            return -1;
+        }
+
+        int mid = (low + high) / 2;
+        if(key == arr[mid]) {
+            return mid;
+        }
+
+        if(key < arr[mid]) {
+            return binarySearch(arr, low, mid - 1, key);
+        }
+        return binarySearch(arr, mid + 1, high, key);
+    }
+}
+________________________________________________________________________________
+BUBBLE sort
+package BubbleSort;
+
+public class Algorithm {
+
+	public static void bubbleSort(int [] arr) {
+		int n=arr.length;
+		for(int i=0;i<n;i++) {
+			for(int j=1;j<n-i;j++) {
+				if(arr[j-1]>arr[j]) {
+					int temp=arr[j-1];
+					arr[j-1]=arr[j];
+					arr[j]=temp;
+				}
+			}
+		}
+	}
+}
+_______________________________________________________________________________
+SELECTION sort
+package SelectionSort;
+
+public class Algorithm {
+	public static void selectionSort(int [] arr) {
+		
+		for(int i=0;i<arr.length-1;i++) {
+			for(int j=i+1;j<arr.length;j++) {
+				if(arr[i]>arr[j]) {
+					int temp=arr[i];
+					arr[i]=arr[j];
+					arr[j]=temp;
+				}
+			}
+		}
+	}
+}
+_______________________________________________________________________________
+INSERTION sort
+package InsertionSort;
+
+public class defination {
+
+	public static void insertionSort(int [] arr) {
+		for(int i=0;i<arr.length;i++) {
+			for(int j=0;j<i;j++) {
+				if(arr[j]>arr[i]) {
+					int temp=arr[j];
+					arr[j]=arr[i];
+					arr[i]=temp;
+				}
+			}
+		}
+	}
+}
+_______________________________________________________________________________
+MERGE sort
+public static void mergeSort(int []arr,int left,int right) {
+		
+		if(left>=right) {
+			return;
+		}
+		
+		int mid = (left+right)/2;
+		mergeSort(arr, left, mid);
+		mergeSort(arr, mid+1, right);
+		merge(arr,left,mid,mid+1,right);
+		
+	}
+	public static void merge(int [] arr,int leftstart,int leftend,int rightstart,int rightend) {
+			int noOfElements=(rightend - leftstart) +1 ;
+			int [ ] temparr=new int [noOfElements];
+			int tempPos= -1;
+			
+			while((leftstart <= leftend) && (rightstart<=rightend)) {
+				if(arr[leftstart]  < arr[rightstart]) {
+					temparr[++tempPos]=arr[leftstart];
+					leftstart++;
+				}
+				else {
+					temparr[++tempPos]=arr[rightstart];
+					rightstart++;
+				}
+			}
+		while(leftstart<=leftend) {
+			temparr[++tempPos]=arr[leftstart];
+			leftstart++;
+		}
+		
+		while(rightstart<=rightend) {
+			temparr[++tempPos]=arr[rightstart];
+			rightstart++;
+		}
+		
+		for(int i=1;i<=noOfElements;i++) {
+			arr[rightend]=temparr[tempPos];
+			rightend--;
+			tempPos--;
+		}
+	}
+	
+______________________________________________________________________________ 
+QUICK sort
+package heapSort;
+
+public class algo {
+
+	public static void Heapsort(int []arr, int length )
+	{
+		if(length <= 1)
+		{
+			return ;
+		}
+		
+		for(int i = length-1;i>0;i--) {
+			if(arr[i]>arr[(i-1)/2]) {
+				int temp=arr[i];
+				arr[i]=arr[(i-1)/2];
+				arr[(i-1)/2]=temp;
+			}
+		}
+		int temp=arr[0];
+		arr[0]=arr[length-1];
+		arr[length-1]=temp;
+		
+		Heapsort(arr, length-1);
+	}
+}
+________________________________________________________________________________
+BST
+public class Node {
+    private int data;
+    private Node left, right;
+
+    public Node(int data) {
+        this.data = data;
+        left = right = null;
+    }
+
+    public int getData() {
+        return data;
+    }
+
+    public void setData(int data) {
+        this.data = data;
+    }
+
+    public Node getLeft() {
+        return left;
+    }
+
+    public void setLeft(Node left) {
+        this.left = left;
+    }
+
+    public Node getRight() {
+        return right;
+    }
+
+    public void setRight(Node right) {
+        this.right = right;
+    }
+}
+
+import java.util.Stack;
+
+public class BinarySearchTree {
+    private Node root;
+
+    public BinarySearchTree() {
+        root = null;
+    }
+
+    public boolean insert(int data) {
+        Node newNode = new Node(data);
+//        if(newNode == null) {
+//            return false;
+//        }
+
+        if(root == null) {
+            root = newNode;
+            return true;
+        }
+
+        Node temp = root;
+        while(true) {
+            if(data == temp.getData()) {
+                return false;
+            }
+
+            if(data < temp.getData()) {
+                //insert to left
+                //check if temp is already having a left child
+                if(temp.getLeft() == null) {
+                    temp.setLeft(newNode);
+                    return true;
+                }
+                temp = temp.getLeft();
+            }
+            else {
+                //insert to right
+                //check if temp has a right child?
+                if(temp.getRight() == null) {
+                    temp.setRight(newNode);
+                    return true;
+                }
+                temp = temp.getRight();
+            }
+        }
+    }
+
+    public void preOrder() { //P-L-R
+        Node temp = root;
+        Stack<Node> stack = new Stack<>();
+
+        System.out.print("PreOrder: ");
+        while(temp != null || !stack.empty()) {
+            while(temp != null) {
+                System.out.print(temp.getData() + " ");
+                stack.push(temp);
+                temp = temp.getLeft();
+            }
+
+            temp = stack.pop().getRight();
+        }
+
+        System.out.println();
+    }
+
+    public void inOrder() {
+        Node temp = root;
+        Stack<Node> stack = new Stack<>();
+
+        System.out.print("InOrder: ");
+        while(temp != null || !stack.empty()) {
+            while(temp != null) {
+                stack.push(temp);
+                temp = temp.getLeft();
+            }
+            temp = stack.pop();
+            System.out.print(temp.getData() + " ");
+            temp = temp.getRight();
+        }
+        System.out.println();
+    }
+
+    public int getMax() {
+        if(root == null) {
+            return -1;
+        }
+
+        Node temp = root;
+        while(temp.getRight() != null) {
+            temp = temp.getRight();
+        }
+
+        return temp.getData();
+    }
+
+    public boolean find(int data) {
+        Node temp = root;
+
+        while(temp != null) {
+            if(temp.getData() == data) {
+                return true;
+            }
+            if(data < temp.getData()) {
+                temp = temp.getLeft();
+            }
+            else {
+                temp = temp.getRight();
+            }
+        }
+
+        return false;
+    }
+}
+______________________________________________________________________________
+STACK
+package stack;
+
+public class Stack <T>{
+	private T[] arr;
+	private int top;
+	private int size;
+	
+	public Stack(int size) {
+		this.size=size;
+		this.top=-1;
+		arr=(T[]) new Object[size];
+	}
+	
+	public boolean isEmpty() {
+		return top==-1;
+	}
+	
+	public boolean isFull() {
+		return top==(size-1);
+	}
+	
+	public boolean push(T data) {
+		if(isFull()) {
+			return false;
+		}
+		arr[++top]=data;
+		return true;
+	}
+	
+	public T pop() {
+		if(isEmpty()) {
+			return null;
+		}
+		return arr[top--] ;	
+	}
+	
+	public T peek() {
+		if(isEmpty()) {
+			return null;
+		}
+		return arr[top];
+	}
+}
+______________________________________________________________________________
+DOuble Stack
+package stack;
+
+public class DoubleStack {
+	private int size;
+	private int arr[];
+	private int top1,top2;
+
+	public DoubleStack(int size) {
+		this.size=size;
+		this.top1=-1;
+		this.top2=size;	
+		arr = new int[size];
+	}
+	public boolean isEmpty1() {
+		if(top1==-1) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean isEmpty2() {
+		if(top2==size) {
+			return true;
+			
+		}
+		return false;
+	}
+	
+	public boolean isFull() {
+		return (top1+1)==top2;
+	}
+	
+	public boolean push1(int data) {
+		if(isFull()) {
+			return false;
+		}
+		arr[++top1]=data;
+		return true;
+	}
+	public boolean push2(int data) {
+		if(isFull()) {
+			return false;
+		}
+		arr[--top2]=data;
+		return true;
+	}
+	public int pop1() {
+		if(isEmpty1()) {
+			return -1;
+		}
+		return arr[top1--];
+	}
+	public int pop2() {
+		if(isEmpty2()) {
+			return -1;
+		}
+		return arr[top2++];
+	}
+}
+______________________________________________________________________________
+QUEUE
+package queue;
+
+public class Queue {
+	private int size;
+	private int [] arr;
+	private int front;
+	private int rear;
+	
+	public Queue(int size) {
+		this.size=size;
+		arr = new int[size];
+		front=rear=-1;
+	}
+	public boolean isEmpty() {
+		if((front==-1)||(rear==-1) || (front>rear))
+		{
+			return true;
+		}
+		return false;
+	}
+	public boolean isFull() {
+		if(rear==(size-1)){
+			return true;
+		}
+		return false;
+	}
+	public boolean insert(int data) {
+		if(isFull()) {
+			return false;
+		}
+		arr[++rear]=data;
+		if(front==-1) {
+			front=0;
+		}
+		return true;
+	}
+	public int delete() {
+		if(isEmpty()) {
+			return -1;
+		}
+		return arr[front++];
+	}
+	
+}
+__________________________________________________________________________________
+double Queue
+package queue;
+
+public class CircularQueue {
+	private int size;
+	private int [] arr;
+	private int front,rear;
+	
+	public CircularQueue(int size) {
+		this.size=size;
+		arr = new int[size];
+		front=rear=-1;
+	}
+	
+	public boolean isEmpty() {
+		if(front==rear) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean isFull() {
+		if((front == 0 && rear == (size-1)) || ((rear+1)%size == front)){
+			return true;
+		}
+		return false;
+	}
+	public boolean insert(int data) {
+		if(isFull()) {
+			return false;
+		}
+		rear=(rear+1)%size;
+		arr[rear]=data;
+		return true;
+	}
+	
+	public int delete() {
+		if(isEmpty()) {
+			return -1;
+		}
+		front=(front+1)%size;
+		return arr[front++];
+	}
+}
+__________________________________________________________________________________
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
