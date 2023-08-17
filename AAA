@@ -37,5 +37,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
             {
                 options.UseMySql(connectionString,ServerVersion.AutoDetect(connectionString));
             });
+Add-Migration newMigration
+update-database
 
 
